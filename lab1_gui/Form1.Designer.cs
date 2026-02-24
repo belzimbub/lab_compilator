@@ -68,15 +68,18 @@
             toolStripButton10 = new ToolStripButton();
             toolStripButton11 = new ToolStripButton();
             groupBox2 = new GroupBox();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            dataGridView1 = new DataGridView();
+            splitContainer1 = new SplitContainer();
             richTextBox1 = new RichTextBox();
+            dataGridView1 = new DataGridView();
             openFileDialog1 = new OpenFileDialog();
             saveFileDialog1 = new SaveFileDialog();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             groupBox2.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -382,7 +385,7 @@
             // groupBox2
             // 
             groupBox2.BackgroundImageLayout = ImageLayout.None;
-            groupBox2.Controls.Add(tableLayoutPanel1);
+            groupBox2.Controls.Add(splitContainer1);
             groupBox2.Dock = DockStyle.Fill;
             groupBox2.Location = new Point(0, 66);
             groupBox2.Name = "groupBox2";
@@ -391,41 +394,43 @@
             groupBox2.TabIndex = 18;
             groupBox2.TabStop = false;
             // 
-            // tableLayoutPanel1
+            // splitContainer1
             // 
-            tableLayoutPanel1.AllowDrop = true;
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(dataGridView1, 0, 1);
-            tableLayoutPanel1.Controls.Add(richTextBox1, 0, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 24);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(982, 621);
-            tableLayoutPanel1.TabIndex = 0;
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(0, 24);
+            splitContainer1.Name = "splitContainer1";
+            splitContainer1.Orientation = Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(richTextBox1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(dataGridView1);
+            splitContainer1.Size = new Size(982, 621);
+            splitContainer1.SplitterDistance = 414;
+            splitContainer1.SplitterWidth = 12;
+            splitContainer1.TabIndex = 0;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Dock = DockStyle.Fill;
+            richTextBox1.Location = new Point(0, 0);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(982, 414);
+            richTextBox1.TabIndex = 0;
+            richTextBox1.Text = "";
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 313);
+            dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(976, 305);
-            dataGridView1.TabIndex = 1;
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Dock = DockStyle.Fill;
-            richTextBox1.ImeMode = ImeMode.On;
-            richTextBox1.Location = new Point(3, 3);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(976, 304);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "";
+            dataGridView1.Size = new Size(982, 195);
+            dataGridView1.TabIndex = 0;
             // 
             // openFileDialog1
             // 
@@ -447,7 +452,10 @@
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             groupBox2.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -491,13 +499,13 @@
         private ToolStripMenuItem вызовСправкиToolStripMenuItem;
         private ToolStripMenuItem оПрограммеToolStripMenuItem;
         private GroupBox groupBox2;
-        private TableLayoutPanel tableLayoutPanel1;
-        private RichTextBox richTextBox1;
-        private DataGridView dataGridView1;
         private OpenFileDialog openFileDialog1;
         private SaveFileDialog saveFileDialog1;
         private ToolStripButton toolStripButton9;
         private ToolStripButton toolStripButton10;
         private ToolStripButton toolStripButton11;
+        private SplitContainer splitContainer1;
+        private RichTextBox richTextBox1;
+        private DataGridView dataGridView1;
     }
 }
