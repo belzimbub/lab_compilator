@@ -256,13 +256,14 @@
             // вызовСправкиToolStripMenuItem
             // 
             вызовСправкиToolStripMenuItem.Name = "вызовСправкиToolStripMenuItem";
-            вызовСправкиToolStripMenuItem.Size = new Size(270, 34);
+            вызовСправкиToolStripMenuItem.Size = new Size(238, 34);
             вызовСправкиToolStripMenuItem.Text = "Вызов справки";
+            вызовСправкиToolStripMenuItem.Click += вызовСправкиToolStripMenuItem_Click;
             // 
             // оПрограммеToolStripMenuItem
             // 
             оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            оПрограммеToolStripMenuItem.Size = new Size(270, 34);
+            оПрограммеToolStripMenuItem.Size = new Size(238, 34);
             оПрограммеToolStripMenuItem.Text = "О программе";
             оПрограммеToolStripMenuItem.Click += оПрограммеToolStripMenuItem_Click;
             // 
@@ -373,6 +374,7 @@
             toolStripButton10.Name = "toolStripButton10";
             toolStripButton10.Size = new Size(34, 28);
             toolStripButton10.Text = "Справка";
+            toolStripButton10.Click += toolStripButton10_Click;
             // 
             // toolStripButton11
             // 
@@ -382,6 +384,7 @@
             toolStripButton11.Name = "toolStripButton11";
             toolStripButton11.Size = new Size(34, 28);
             toolStripButton11.Text = "О программе";
+            toolStripButton11.Click += toolStripButton11_Click;
             // 
             // groupBox2
             // 

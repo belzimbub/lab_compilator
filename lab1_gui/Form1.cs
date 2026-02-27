@@ -1,6 +1,7 @@
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Diagnostics;
 
 namespace lab1_gui
 {
@@ -116,6 +117,21 @@ namespace lab1_gui
         private void îÏğîãğàììåToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About.AboutProgram();
+        }
+
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            About.AboutInstructions();
+        }
+
+        private void toolStripButton11_Click(object sender, EventArgs e)
+        {
+            About.AboutProgram();
+        }
+
+        private void âûçîâÑïğàâêèToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About.AboutInstructions();
         }
     }
 }
