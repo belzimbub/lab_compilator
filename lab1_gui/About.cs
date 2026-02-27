@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace lab1_gui
 {
@@ -15,8 +11,7 @@ namespace lab1_gui
         }
         public static void AboutInstructions()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string htmlFilePath = Path.Combine(path, "instructions.html");
+            string htmlFilePath = @"https://github.com/belzimbub/lab1_gui/blob/master/README.md";
             Process.Start("explorer.exe", htmlFilePath);
         }
     }
