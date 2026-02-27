@@ -55,11 +55,9 @@
 <img width="986" height="758" alt="изображение" src="https://github.com/user-attachments/assets/d142ca5a-c924-4ff5-a0f1-4097bfb88c83" />
 
 Главное меню программы имеет дополнительные функции:
-- Файл
 12) Выход
 <img width="986" height="758" alt="изображение" src="https://github.com/user-attachments/assets/4f691987-7f88-494b-a3e8-36b1b75bbbff" />
 
-- Правка
 13) Удалить
 <img width="986" height="758" alt="изображение" src="https://github.com/user-attachments/assets/0d8789c6-bc13-43f0-8089-5d81ef18c67d" />
 
