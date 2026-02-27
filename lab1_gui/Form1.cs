@@ -36,7 +36,7 @@ namespace lab1_gui
 
         private void îòêğûòèåToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            textEdit.FileOpen(richTextBox1,this);
+            textEdit.FileOpen(richTextBox1, this);
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -111,6 +111,11 @@ namespace lab1_gui
         private void âûäåëèòüÂñåToolStripMenuItem_Click(object sender, EventArgs e)
         {
             textEdit.FileSelectAll(richTextBox1);
+        }
+
+        private void îÏğîãğàììåToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About.AboutProgram();
         }
     }
 }

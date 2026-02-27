@@ -10,9 +10,10 @@ namespace lab1_gui
     public class TextEditor
     {
         public string file = string.Empty;
+        public int current_length = 0;
         public bool CommitChanges(RichTextBox r)
         {
-            if (r.Text.Length > 0)
+            if (r.Text.Length>current_length || r.Text.Length < current_length)
             {
                 DialogResult dlg = MessageBox.Show("Сохранить изменения?", "Предупреждение", MessageBoxButtons.YesNo);
                 if (dlg == DialogResult.Yes)
@@ -37,7 +38,7 @@ namespace lab1_gui
                 OpenFileDialog open = new OpenFileDialog();
 
                 open.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
-                open.Title = "Open File";
+                open.Title = "Открыть";
                 open.FileName = "";
 
                 if (open.ShowDialog() == DialogResult.OK)
@@ -59,13 +60,14 @@ namespace lab1_gui
                 saving.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
                 saving.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
-                saving.Title = "Save As";
-                saving.FileName = "Untitled";
+                saving.Title = "Сохранить как";
+                saving.FileName = "Безымянный";
 
                 if (saving.ShowDialog() == DialogResult.OK)
                 {
                     file = saving.FileName;
                     StreamWriter writing = new StreamWriter(saving.FileName);
+                    current_length = r.Text.Length;
                     writing.Write(r.Text);
                     writing.Close();
                 }
@@ -73,6 +75,7 @@ namespace lab1_gui
             else
             {
                 StreamWriter writer = new StreamWriter(file);
+                current_length = r.Text.Length;
                 writer.Write(r.Text);
                 writer.Close();
             }

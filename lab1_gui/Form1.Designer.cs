@@ -256,14 +256,15 @@
             // вызовСправкиToolStripMenuItem
             // 
             вызовСправкиToolStripMenuItem.Name = "вызовСправкиToolStripMenuItem";
-            вызовСправкиToolStripMenuItem.Size = new Size(238, 34);
+            вызовСправкиToolStripMenuItem.Size = new Size(270, 34);
             вызовСправкиToolStripMenuItem.Text = "Вызов справки";
             // 
             // оПрограммеToolStripMenuItem
             // 
             оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            оПрограммеToolStripMenuItem.Size = new Size(238, 34);
+            оПрограммеToolStripMenuItem.Size = new Size(270, 34);
             оПрограммеToolStripMenuItem.Text = "О программе";
+            оПрограммеToolStripMenuItem.Click += оПрограммеToolStripMenuItem_Click;
             // 
             // toolStrip1
             // 
@@ -362,7 +363,7 @@
             toolStripButton9.ImageTransparentColor = Color.Magenta;
             toolStripButton9.Name = "toolStripButton9";
             toolStripButton9.Size = new Size(34, 28);
-            toolStripButton9.Text = "toolStripButton9";
+            toolStripButton9.Text = "Пуск";
             // 
             // toolStripButton10
             // 
@@ -371,7 +372,7 @@
             toolStripButton10.ImageTransparentColor = Color.Magenta;
             toolStripButton10.Name = "toolStripButton10";
             toolStripButton10.Size = new Size(34, 28);
-            toolStripButton10.Text = "toolStripButton10";
+            toolStripButton10.Text = "Справка";
             // 
             // toolStripButton11
             // 
@@ -380,7 +381,7 @@
             toolStripButton11.ImageTransparentColor = Color.Magenta;
             toolStripButton11.Name = "toolStripButton11";
             toolStripButton11.Size = new Size(34, 28);
-            toolStripButton11.Text = "toolStripButton11";
+            toolStripButton11.Text = "О программе";
             // 
             // groupBox2
             // 
