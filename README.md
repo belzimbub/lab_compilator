@@ -67,4 +67,4 @@
 <img width="986" height="758" alt="изображение" src="https://github.com/user-attachments/assets/4adf5c2a-0e2f-42c6-b900-215f582569dd" />
 
 
-Ограничения:
+## Ограничения:
