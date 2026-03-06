@@ -365,6 +365,7 @@
             toolStripButton9.Name = "toolStripButton9";
             toolStripButton9.Size = new Size(34, 28);
             toolStripButton9.Text = "Пуск";
+            toolStripButton9.Click += toolStripButton9_Click;
             // 
             // toolStripButton10
             // 

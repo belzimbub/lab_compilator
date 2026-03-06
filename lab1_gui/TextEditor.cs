@@ -10,10 +10,10 @@ namespace lab1_gui
     public class TextEditor
     {
         public string file = string.Empty;
-        public int current_length = 0;
+        public bool textWasChanged = false;
         public bool CommitChanges(RichTextBox r)
         {
-            if (r.Text.Length>current_length || r.Text.Length < current_length)
+            if (textWasChanged)
             {
                 DialogResult dlg = MessageBox.Show("Сохранить изменения?", "Предупреждение", MessageBoxButtons.YesNo);
                 if (dlg == DialogResult.Yes)
@@ -67,7 +67,6 @@ namespace lab1_gui
                 {
                     file = saving.FileName;
                     StreamWriter writing = new StreamWriter(saving.FileName);
-                    current_length = r.Text.Length;
                     writing.Write(r.Text);
                     writing.Close();
                 }
@@ -75,10 +74,10 @@ namespace lab1_gui
             else
             {
                 StreamWriter writer = new StreamWriter(file);
-                current_length = r.Text.Length;
                 writer.Write(r.Text);
                 writer.Close();
             }
+            textWasChanged = false;
         }
         public void FileUndo(RichTextBox r)
         {

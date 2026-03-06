@@ -7,12 +7,18 @@ namespace lab1_gui
 {
     public partial class Form1 : Form
     {
-        private string FileName = string.Empty;
         TextEditor textEdit = new();
+        Scanner scanner = new();
+        
         public Form1()
         {
             InitializeComponent();
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
+            richTextBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+        }
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            textEdit.textWasChanged = true;
         }
         private void FormIsClosing(object sender, FormClosingEventArgs e)
         {
@@ -132,6 +138,11 @@ namespace lab1_gui
         private void ‚˚ÁÓ‚—Ô‡‚ÍËToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About.AboutInstructions();
+        }
+
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = scanner.TextBoxScanner(richTextBox1);
         }
     }
 }
