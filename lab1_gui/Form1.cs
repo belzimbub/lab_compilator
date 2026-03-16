@@ -15,6 +15,61 @@ namespace lab1_gui
             InitializeComponent();
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             richTextBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            dataGridView1.CellClick += dataGridView_CellClick;
+        }
+        private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex < 0 || richTextBox1 == null) return;
+
+            var dataGridView = sender as DataGridView;
+            if (dataGridView == null) return;
+
+            var selectedRow = dataGridView.Rows[e.RowIndex];
+            var token = selectedRow.DataBoundItem as Token;
+
+            if (token != null)
+            {
+                if (token.Type == TokenType.Error)
+                {
+                    richTextBox1.Focus();
+
+                    if (token.AbsoluteIndex >= 0 && token.AbsoluteIndex < richTextBox1.TextLength)
+                    {
+                        richTextBox1.SelectionStart = token.AbsoluteIndex;
+
+                        if (token.Value != null)
+                        {
+                            int length = token.Value.Length;
+                            if (token.AbsoluteIndex + length <= richTextBox1.TextLength)
+                            {
+                                richTextBox1.SelectionLength = length;
+                            }
+                            else
+                            {
+                                richTextBox1.SelectionLength = 1;
+                            }
+                        }
+                        else
+                        {
+                            richTextBox1.SelectionLength = 1;
+                        }
+
+                        richTextBox1.ScrollToCaret();
+
+                        richTextBox1.SelectionBackColor = System.Drawing.Color.Yellow;
+
+                        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+                        timer.Interval = 1000;
+                        timer.Tick += (s, args) =>
+                        {
+                            richTextBox1.SelectionBackColor = System.Drawing.Color.White;
+                            timer.Stop();
+                            timer.Dispose();
+                        };
+                        timer.Start();
+                    }
+                }
+            }
         }
         private void textBox_TextChanged(object sender, EventArgs e)
         {

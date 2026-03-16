@@ -8,21 +8,14 @@ namespace lab1_gui
 {
     public enum TokenType
     {
-       
-        // КЛЮЧЕВЫЕ СЛОВА
         Const = 1,
         Integer = 2,
-        // ИНДЕТИФИКАТОРЫ
         Id = 3,
         WhiteSpace = 4,
         Colon = 5,
         IntDigit = 6,
-        End_operator = 7,
-        // МАТЕМАТИЧЕСКИЕ ЗНАКИ
+        EndOperator = 7,
         Equal = 8,
-        Plus = 9,
-        Minus = 10,
-        // ОШИБКИ
         Error = 0
     }
 }

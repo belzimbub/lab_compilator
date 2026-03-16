@@ -33,16 +33,14 @@ namespace lab1_gui
             TokenType.Colon => "Оператор объявления",
             TokenType.IntDigit => "Порядковое число",
             TokenType.WhiteSpace => "Разделитель (пробел)",
-            TokenType.End_operator => "Конец оператора",
+            TokenType.EndOperator => "Конец оператора",
             TokenType.Equal => "Оператор присваивания",
-            TokenType.Minus => "Арифметический оператор (-)",
-            TokenType.Plus => "Арифметический оператор (+)",
             TokenType.Error => "Лексическая ошибка",
             TokenType.Const => "Ключевое слово const",
             TokenType.Integer => "Ключевое слово integer",
-            _ => "Неизвестная лексема"
+
         };
 
-        public string Location => $"Стр: {Line}, Поз: {StartPos}-{EndPos}";
+        public string Location => $"строка: {Line}, {StartPos}-{EndPos}";
     }
 }

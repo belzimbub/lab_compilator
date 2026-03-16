@@ -13,24 +13,22 @@ namespace lab1_gui
         public List<Token> Analyze(string text)
         {
             var tokens = new List<Token>();
-            int pos = 0, line = 1, col = 1;
-            bool cond_colon = false, cond_keyword = true, cond_value = false;
+            int pos = 0, line = 1, col = 1, cond_colon = 0;
+            bool cond_keyword = true, cond_value = false;
 
             while (pos < text.Length)
             {
-                char c = text[pos];
-
                 int startCol = col;
                 int startPos = pos;
 
-                if (c == '\n')
+                if (text[pos] == '\n')
                 {
                     line++;
                     col = 1;
                     pos++;
                     continue;
                 }
-                if (c == ' ' || c == '\b' || c == '\r')
+                if (text[pos] == ' ' || text[pos] == '\b' || text[pos] == '\r')
                 {
                     string spaces = "";
                     while (pos < text.Length && (text[pos] == ' ' || text[pos] == '\t' || text[pos] == '\r'))
@@ -51,7 +49,7 @@ namespace lab1_gui
                     });
                     continue;
                 }
-                if (char.IsLetter(c) || c == '_')
+                if (char.IsLetter(text[pos]) || text[pos] == '_')
                 {
                     string lexeme = "";
                     while (pos < text.Length && (char.IsLetterOrDigit(text[pos]) || text[pos] == '_'))
@@ -64,7 +62,7 @@ namespace lab1_gui
                     switch (lexeme)
                         {
                             case "const":
-                                if (cond_colon == false && cond_keyword == true)
+                                if (cond_colon == 0 && cond_value == false)
                                 {
                                     type = TokenType.Const;
                                     cond_keyword = false;
@@ -75,7 +73,7 @@ namespace lab1_gui
                                 }
                                 break;
                             case "integer":
-                                if (cond_colon == true && cond_keyword == true)
+                                if (cond_colon > 1 && cond_keyword == true && cond_value == false)
                                 {
                                     type = TokenType.Integer;
                                     cond_keyword = false;
@@ -86,14 +84,15 @@ namespace lab1_gui
                                 }
                                 break;
                             default:
-                                if (cond_colon == true || cond_keyword == true || cond_value==true)
+                                if (cond_colon != 0 || cond_keyword == true || cond_value==true)
                                 {
                                     type = TokenType.Error;
+                                    cond_keyword = false;
                                 }
                                 else
                                 {
                                     type = TokenType.Id;
-                                    cond_colon = true;
+                                    cond_colon = 1;
                                 }
                                 break;
                         }
@@ -109,25 +108,25 @@ namespace lab1_gui
                     continue;
                 }
                 
-                if (c == '=')
+                if (text[pos] == '=')
                 {
                     TokenType type = TokenType.Error;
-                    if (cond_keyword == true)
+                    if (cond_colon == 2 && cond_keyword == false)
                     {
-                        type = TokenType.Error;
+                        type = TokenType.Equal;
+                        
                     }
                     else
                     {
-                        
-                        type = TokenType.Equal;
-                        cond_value = true;
+                        type = TokenType.Error;
                     }
+                    cond_value = true;
                     col++;
                     pos++;
                     tokens.Add(new Token
                     {
                         Type = type,
-                        Value = char.ToString(c),
+                        Value = "=",
                         Line = line,
                         StartPos = startCol,
                         EndPos = col - 1,
@@ -135,11 +134,12 @@ namespace lab1_gui
                     });
                     continue;
                 }
-                if (c == ':')
+                if (text[pos] == ':')
                 {
-                    if (cond_colon == true)
+                    if (cond_colon == 1)
                     {
                         cond_keyword = true;
+                        cond_colon = 2;
                         tokens.Add(new Token
                         {
                             Type = TokenType.Colon,
@@ -154,14 +154,14 @@ namespace lab1_gui
                         continue;
                     }
                 }
-                if (c == ';')
+                if (text[pos] == ';')
                 {
-                    cond_colon = false;
+                    cond_colon = 0;
                     cond_value = false;
                     cond_keyword = true;
                     tokens.Add(new Token
                     {
-                        Type = TokenType.End_operator,
+                        Type = TokenType.EndOperator,
                         Value = ";",
                         Line = line,
                         StartPos = startCol,
@@ -172,31 +172,53 @@ namespace lab1_gui
                     pos++;
                     continue;
                 }
-                if (char.IsDigit(c))
+                if (char.IsDigit(text[pos]) || text[pos]=='-')
                 {
                     string lexeme = "";
+                    lexeme += text[pos];
+                    col++;
+                    pos++;
                     while (pos < text.Length && char.IsDigit(text[pos]))
                     {
                         lexeme += text[pos];
                         col++; 
                         pos++;
                     }
-                    TokenType tokenType = TokenType.IntDigit;
-                    tokens.Add(new Token
+                    TokenType tokenType = TokenType.Error;
+                    if (lexeme == "-" || (lexeme.StartsWith("-") && lexeme.Length == 1))
                     {
-                        Type = tokenType,
-                        Value = lexeme,
-                        Line = line,
-                        StartPos = startCol,
-                        EndPos = col - 1,
-                        AbsoluteIndex = startPos
-                    });
+                        tokens.Add(new Token
+                        {
+                            Type = tokenType,
+                            Value = lexeme,
+                            Line = line,
+                            StartPos = startCol,
+                            EndPos = col - 1,
+                            AbsoluteIndex = startPos
+                        });
+                    }
+                    else
+                    {
+                        if (cond_keyword == false && cond_colon == 2)
+                        {
+                            tokenType = TokenType.IntDigit;
+                        }
+                        tokens.Add(new Token
+                        {
+                            Type = tokenType,
+                            Value = lexeme,
+                            Line = line,
+                            StartPos = startCol,
+                            EndPos = col - 1,
+                            AbsoluteIndex = startPos
+                        });
+                    }
                     continue;
                 }
                 tokens.Add(new Token
                 {
                     Type = TokenType.Error,
-                    Value = c.ToString(),
+                    Value = text[pos].ToString(),
                     Line = line,
                     StartPos = startCol,
                     EndPos = col,
@@ -210,6 +232,11 @@ namespace lab1_gui
         public void Run(DataGridView d, RichTextBox r)
         {
             d.DataSource = Analyze(r.Text);
+            d.Columns["Code"].HeaderText = "Условный код";
+            d.Columns["Value"].HeaderText = "Лексема";
+            d.Columns["TypeName"].HeaderText = "Тип лексемы";
+            d.Columns["Location"].HeaderText = "Местоположение";
+            d.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
     }
 }
