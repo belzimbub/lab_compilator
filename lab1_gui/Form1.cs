@@ -19,8 +19,6 @@ namespace lab1_gui
         }
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex < 0 || richTextBox1 == null) return;
-
             var dataGridView = sender as DataGridView;
             if (dataGridView == null) return;
 
