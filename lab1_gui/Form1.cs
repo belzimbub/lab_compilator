@@ -10,7 +10,7 @@ namespace lab1_gui
 {
     public partial class Form1 : Form
     {
-        //private RegexClass regex;
+        private RegexClass regex;
         TextEditor textEdit = new();
         Scanner scanner = new();
         Parser parser = new();
@@ -18,12 +18,12 @@ namespace lab1_gui
         public Form1()
         {
             InitializeComponent();
-            //regex = new RegexClass(
-            //    richTextBox1,
-            //    dataGridView1,
-            //    comboBox1,
-            //    label1
-            //);
+            regex = new RegexClass(
+                richTextBox1,
+                dataGridView1,
+                comboBox1,
+                label1
+            );
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             richTextBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
         }

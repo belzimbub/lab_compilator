@@ -71,6 +71,7 @@
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
             richTextBox1 = new RichTextBox();
+            comboBox1 = new ComboBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             dataGridView1 = new DataGridView();
             label1 = new Label();
@@ -426,9 +427,11 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82.83262F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 161F));
             tableLayoutPanel1.Controls.Add(richTextBox1, 0, 0);
+            tableLayoutPanel1.Controls.Add(comboBox1, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -439,12 +442,21 @@
             // 
             // richTextBox1
             // 
-            richTextBox1.Dock = DockStyle.Fill;
+            richTextBox1.Dock = DockStyle.Left;
             richTextBox1.Location = new Point(3, 3);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(926, 408);
+            richTextBox1.Size = new Size(765, 408);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
+            // 
+            // comboBox1
+            // 
+            comboBox1.Dock = DockStyle.Fill;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(774, 3);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(155, 33);
+            comboBox1.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
@@ -563,5 +575,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
+        private ComboBox comboBox1;
     }
 }
