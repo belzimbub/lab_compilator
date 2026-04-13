@@ -144,7 +144,7 @@ const asr34: integer = 425;
     2. "const N21: integer = -241;"
     3. "const N2_1: integer = +51;"
 
-Грамматика:
+## Грамматика:
 1. \<Start\> → “const” \<BeginID\> 
 
 2. \<BeginID\> → letter\<ID\> | “_”\<ID\>
@@ -155,19 +155,20 @@ const asr34: integer = 425;
 
 5. \<Equal\> → “=”\<Integer\>
 
-6. \<Integer\> → “+”\<UnsignedInteger\>| “-”\<UnsignedInteger\> | digit \<UnsignedInteger\>
+6. \<Integer\> → “+”\<UnsignedInteger\>| “-”\<UnsignedInteger\> | digit\<End\> | digit\<UnsignedInteger\>
 
-7. \<UnsignedInteger\> → digit\<UnsignedInteger\> | \<End\>
-
+7. \<UnsignedInteger\> → digit\<UnsignedInteger\> | digit\<End\>
+  
 8. \<End\> → “;”
 
 Согласно классификации Хомского, грамматика G[Z] является автоматной. Правила относятся к классу праворекурсивных продукций (A → aB | a | ε).
 
 Метод анализа:
 
-<img width="702" height="547" alt="method_analysis drawio(4)" src="https://github.com/user-attachments/assets/11ee52a5-297e-455a-a1fe-1f5ef5d05ba7" />
+<img width="670" height="586" alt="method_analysis drawio(5)" src="https://github.com/user-attachments/assets/98995b46-7cb0-4c0b-b96d-626d9f20aee1" />
 
-Диагностика и нейтрализация синтаксических ошибок:
+
+## Диагностика и нейтрализация синтаксических ошибок:
 
 Согласно заданию на курсовую работу, необходимо реализовать нейтрализацию синтаксических ошибок, используя метод Айронса:
 
@@ -180,7 +181,7 @@ const asr34: integer = 425;
 
 Для автоматной грамматики предлагается свести алгоритм нейтрализации к последовательному удалению следующего символа во входной цепочке до тех пор, пока следующий символ не окажется одним из допустимых в данный момент разбора.
 
-Тестовые примеры:
+## Тестовые примеры:
 <img width="929" height="744" alt="изображение" src="https://github.com/user-attachments/assets/1abb9617-1798-4c6c-acce-4c670c336d6d" />
 
 <img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/fa8916d2-e69e-46e6-a600-672993bf2a52" />
@@ -241,7 +242,7 @@ const asr34: integer = 425;
 <img width="936" height="758" alt="изображение" src="https://github.com/user-attachments/assets/f6622011-75bb-48b8-8238-9543591aa2d2" />
 
 ### Построить РВ, описывающее все виды записей комплексных чисел.
-Регулярное выражение: [+-]?\d*?\.?\d*?[+-]?\d*?i\b
+Регулярное выражение: [+-]?\d*?\.?\d*?[+-]?\d*?i\b, [+-] - совпадение со всеми, что находится внутри класса (+,-), ? - совпадение 0 или 1 раз с предыдущим токеном, \d - цифра, * - совпадение с предыдущим токеном (\d) 0 или больше раз, \. - символ точка, \b - граница слова (конец).
 
 Примеры строк, которые должны находиться: 90012312+5i, 9-2i, 42i
 
