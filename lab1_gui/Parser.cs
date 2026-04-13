@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace lab1_gui
 {
@@ -11,25 +13,26 @@ namespace lab1_gui
         private int _idx;
         public int Idx
         {
-            get
-            {
-                return _idx;
-            }
+            get { return _idx; }
         }
-        private String incorrStr;
 
-        public String IncorrStr
+        private string incorrStr;
+        public string IncorrStr
         {
-            get
-            {
-                return incorrStr;
-            }
+            get { return incorrStr; }
         }
 
-        public ParseError(String msg, String rem, int index) : base(msg)
+        public int Line { get; set; }
+        public int StartPos { get; set; }
+        public int EndPos { get; set; }
+
+        public ParseError(string msg, string rem, int index, int line = 0, int startPos = 0, int endPos = 0) : base(msg)
         {
             incorrStr = rem;
             _idx = index;
+            Line = line;
+            StartPos = startPos;
+            EndPos = endPos;
         }
     }
 
@@ -46,50 +49,55 @@ namespace lab1_gui
             return errors;
         }
 
-        public bool Parse(List<Token> tokenList)
+        public void Parse(List<Token> tokenList)
         {
             tokens = tokenList;
             state = 1;
             currentTokenIndex = 0;
 
             errors = new List<ParseError>();
-
-            while (state != 10 && currentTokenIndex < tokens.Count)
+            if (tokens.Count > 0)
             {
-                SkipWhiteSpace();
-                switch (state)
+                while (state != 10 && currentTokenIndex < tokens.Count)
                 {
-                    case 1:
-                        state1();
-                        break;
-                    case 2:
-                        state2();
-                        break;
-                    case 3:
-                        state3();
-                        break;
-                    case 4:
-                        state4();
-                        break;
-                    case 5:
-                        state5();
-                        break;
-                    case 6:
-                        state6();
-                        break;
-                    case 7:
-                        state7();
-                        break;
-                    case 8:
-                        state8();
-                        break;
+                    SkipWhiteSpace();
+                    switch (state)
+                    {
+                        case 1:
+                            state1();
+                            break;
+                        case 2:
+                            state2();
+                            break;
+                        case 3:
+                            state3();
+                            break;
+                        case 4:
+                            state4();
+                            break;
+                        case 5:
+                            state5();
+                            break;
+                        case 6:
+                            state6();
+                            break;
+                        case 7:
+                            state7();
+                            break;
+                        case 8:
+                            state8();
+                            break;
+                    }
+                }
+                if (errors.Count == 0)
+                {
+                    ValidateEndOfInput();
                 }
             }
-            if (errors.Count == 0)
+            else
             {
-                ValidateEndOfInput();
+                MessageBox.Show("Введите текст.", "Предупреждение", MessageBoxButtons.OK);
             }
-            return errors.Count == 0;
         }
 
         private Token GetCurrentToken()
@@ -110,7 +118,39 @@ namespace lab1_gui
 
         private void handleError(string eMess, string removed, Token token)
         {
-            errors.Add(new ParseError(eMess, removed, token != null ? token.StartPos : -1));
+            int line = -1;
+            int startPos = -1;
+            int endPos = -1;
+            int index = -1;
+
+            if (token != null)
+            {
+                line = token.Line;
+                startPos = token.StartPos;
+                endPos = token.EndPos;
+                index = token.AbsoluteIndex;
+            }
+            else
+            {
+                Token currentToken = GetCurrentToken();
+                if (currentToken != null)
+                {
+                    line = currentToken.Line;
+                    startPos = currentToken.StartPos;
+                    endPos = currentToken.EndPos;
+                    index = currentToken.AbsoluteIndex;
+                }
+                else if (tokens.Count > 0)
+                {
+                    Token lastToken = tokens[tokens.Count - 1];
+                    line = lastToken.Line;
+                    startPos = lastToken.EndPos + 1;
+                    endPos = lastToken.EndPos + 1;
+                    index = lastToken.EndPos + 1;
+                }
+            }
+
+            errors.Add(new ParseError(eMess, removed, index, line, startPos, endPos));
         }
 
         private void state1()
@@ -134,7 +174,7 @@ namespace lab1_gui
                     }
                     currentTokenIndex++;
                     token = GetCurrentToken();
-                    if (token != null && token.Type == TokenType.Id || token.Type == TokenType.IntDigit)
+                    if (token != null && (token.Type == TokenType.Id || token.Type == TokenType.IntDigit))
                     {
                         state = 2;
                         return;
@@ -177,6 +217,7 @@ namespace lab1_gui
                 }
             }
         }
+
         private void state3()
         {
             SkipWhiteSpace();
@@ -196,7 +237,7 @@ namespace lab1_gui
                         state = 4;
                         return;
                     }
-                    if (token!= null && token.Type == TokenType.Id)
+                    if (token != null && token.Type == TokenType.Id)
                     {
                         state = 4;
                         return;
@@ -239,6 +280,11 @@ namespace lab1_gui
                     }
                     currentTokenIndex++;
                     token = GetCurrentToken();
+                    if (token != null && token.Type == TokenType.Id)
+                    {
+                        state = 5;
+                        return;
+                    }
                 }
             }
         }
@@ -282,6 +328,7 @@ namespace lab1_gui
                 }
             }
         }
+
         private void state6()
         {
             SkipWhiteSpace();
@@ -296,6 +343,7 @@ namespace lab1_gui
                 state = 7;
             }
         }
+
         private void state7()
         {
             SkipWhiteSpace();
@@ -310,7 +358,7 @@ namespace lab1_gui
                 handleError("Ожидается целое число.", token != null ? token.Value : null, token);
                 while (currentTokenIndex < tokens.Count)
                 {
-                    if (token != null && token.Type == TokenType.EndOperator)
+                    if (token != null && (token.Type == TokenType.EndOperator))
                     {
                         state = 8;
                         return;
@@ -320,6 +368,7 @@ namespace lab1_gui
                 }
             }
         }
+
         private void state8()
         {
             SkipWhiteSpace();
@@ -332,10 +381,11 @@ namespace lab1_gui
             }
             else
             {
-                handleError("Ожидается знак ';'.", tokens[currentTokenIndex - 1].Value, tokens[currentTokenIndex - 1]);
+                Token prevToken = currentTokenIndex > 0 ? tokens[currentTokenIndex - 1] : null;
+                handleError("Ожидается знак ';'.", prevToken != null ? prevToken.Value : null, prevToken);
                 while (currentTokenIndex < tokens.Count)
                 {
-                    if (token != null && (token.Type == TokenType.Const|| token.Type == TokenType.Id))
+                    if (token != null && (token.Type == TokenType.Const || token.Type == TokenType.Id))
                     {
                         state = 1;
                         return;
@@ -345,19 +395,23 @@ namespace lab1_gui
                 }
             }
         }
+
         private void ValidateEndOfInput()
         {
             SkipWhiteSpace();
-            if (state!=9)
+            if (state != 9)
             {
-                handleError("Ожидается знак ';'.",tokens[currentTokenIndex - 1].Value, tokens[currentTokenIndex - 1]);
+                Token lastToken = tokens.Count > 0 ? tokens[tokens.Count - 1] : null;
+                handleError("Ожидается знак ';'.", lastToken != null ? lastToken.Value : null, lastToken);
             }
         }
-        public void Display(DataGridView grid, Label label)
+
+        public void Display(DataGridView grid, Label label, RichTextBox editor)
         {
             grid.Columns.Clear();
             grid.Rows.Clear();
             label.Text = "";
+
             if (errors.Count > 0)
             {
                 grid.AllowUserToAddRows = false;
@@ -375,30 +429,102 @@ namespace lab1_gui
                 grid.Columns["ErrorFragment"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 grid.Columns["Location"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 grid.Columns["Description"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                grid.CellClick -= (s, e) => OnErrorCellClick(s, e, editor);
+                grid.CellClick += (s, e) => OnErrorCellClick(s, e, editor);
+
                 foreach (ParseError error in errors)
                 {
-                    string location = GetLocationFromIndex(error.Idx);
+                    string location;
+                    if (error.StartPos == error.EndPos)
+                        location = $"строка: {error.Line}, позиция: {error.StartPos}";
+                    else
+                        location = $"строка: {error.Line}, позиция: {error.StartPos}-{error.EndPos}";
+
                     grid.Rows.Add(error.IncorrStr ?? "", location, error.Message);
                 }
-                label.Text = "Всего ошибок: "+errors.Count.ToString();
+                label.Text = "Всего ошибок: " + errors.Count.ToString();
             }
             else
             {
-                MessageBox.Show("Ошибок нет!", "Результат", MessageBoxButtons.YesNo);
+                MessageBox.Show("Ошибок нет!", "Результат", MessageBoxButtons.OK);
             }
         }
-        private string GetLocationFromIndex(int index)
+
+        private void OnErrorCellClick(object sender, DataGridViewCellEventArgs e, RichTextBox editor)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= errors.Count)
+                return;
+
+            ParseError error = errors[e.RowIndex];
+            Token errorToken = GetTokenAtPosition(error.StartPos);
+            if (errorToken != null)
+            {
+                editor.SelectionStart = errorToken.AbsoluteIndex;
+                editor.SelectionLength = errorToken.Value?.Length ?? 0;
+                editor.ScrollToCaret();
+                editor.Focus();
+                editor.SelectionBackColor = Color.LightPink;
+
+                System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+                timer.Interval = 2000;
+                timer.Tick += (s, args) =>
+                {
+                    editor.SelectionStart = 0;
+                    editor.SelectionLength = 0;
+                    editor.SelectionBackColor = Color.White;
+                    timer.Stop();
+                    timer.Dispose();
+                };
+                timer.Start();
+            }
+            else if (error.Idx >= 0 && error.Idx < editor.Text.Length)
+            {
+                editor.SelectionStart = error.Idx;
+                editor.SelectionLength = 1;
+                editor.ScrollToCaret();
+                editor.Focus();
+                editor.SelectionBackColor = Color.LightPink;
+
+                System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+                timer.Interval = 2000;
+                timer.Tick += (s, args) =>
+                {
+                    editor.SelectionStart = 0;
+                    editor.SelectionLength = 0;
+                    editor.SelectionBackColor = Color.White;
+                    timer.Stop();
+                    timer.Dispose();
+                };
+                timer.Start();
+            }
+        }
+
+        private Token GetTokenAtPosition(int position)
         {
             if (tokens == null || tokens.Count == 0)
-                return "Неизвестно";
+                return null;
             foreach (Token token in tokens)
             {
-                if (token.AbsoluteIndex <= index && index <= token.EndPos)
+                if (token.StartPos <= position && position <= token.EndPos)
                 {
-                    return $"строка: {token.Line}, позиция: {token.StartPos}-{token.EndPos}";
+                    return token;
                 }
             }
-            return "Неизвестно";
+            Token nearestToken = null;
+            int minDistance = int.MaxValue;
+
+            foreach (Token token in tokens)
+            {
+                int distance = Math.Abs(token.StartPos - position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nearestToken = token;
+                }
+            }
+
+            return nearestToken;
         }
     }
 }
