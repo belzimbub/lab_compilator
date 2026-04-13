@@ -165,7 +165,8 @@ const asr34: integer = 425;
 
 Метод анализа:
 
-<img width="702" height="547" alt="method_analysis drawio(4)" src="https://github.com/user-attachments/assets/11ee52a5-297e-455a-a1fe-1f5ef5d05ba7" />
+<img width="670" height="586" alt="method_analysis drawio(5)" src="https://github.com/user-attachments/assets/98995b46-7cb0-4c0b-b96d-626d9f20aee1" />
+
 
 ## Диагностика и нейтрализация синтаксических ошибок:
 
