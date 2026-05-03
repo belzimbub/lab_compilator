@@ -1,7 +1,9 @@
-using lab_compilator;
+﻿using lab_compilator;
 using System.Data;
 using System.Diagnostics;
+using System.Reflection.Emit;
 using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
@@ -10,30 +12,42 @@ namespace lab1_gui
 {
     public partial class Form1 : Form
     {
-        private RegexClass regex;
         TextEditor textEdit = new();
-        Scanner scanner = new();
-        Parser parser = new();
 
         public Form1()
         {
             InitializeComponent();
-            regex = new RegexClass(
-                richTextBox1,
-                dataGridView1,
-                comboBox1,
-                label1
-            );
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             richTextBox1.TextChanged += new System.EventHandler(this.textBox_TextChanged);
         }
         private void Run()
         {
+            Scanner scanner = new();
+            Parser parser = new();
             List<Token> tokens = scanner.Analyze(richTextBox1.Text);
             parser.Parse(tokens);
-            parser.Display(dataGridView1, label1,richTextBox1);
-            //scanner.Run(dataGridView1,richTextBox1);
-            //regex.PerformSearch();
+            if (parser.GetErrors().Count == 0)
+            {
+                SemanticAnalyzer semanticAnalyzer = new();
+                ProgramNode ast = semanticAnalyzer.Analyze(tokens);
+
+                if (semanticAnalyzer.HasErrors())
+                {
+                    semanticAnalyzer.DisplaySemanticErrors(semanticAnalyzer.GetSemanticErrors(), dataGridView1, label1);
+                }
+                else
+                {
+                    dataGridView1.Columns.Clear();
+                    dataGridView1.Rows.Clear();
+                    label1.Text = "";
+                    AstForm astForm = new AstForm(ast);
+                    astForm.ShowDialog();
+                }
+            }
+            else
+            {
+                parser.Display(dataGridView1, label1, richTextBox1);
+            }
         }
         private void textBox_TextChanged(object sender, EventArgs e)
         {
@@ -167,6 +181,37 @@ namespace lab1_gui
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Run();
+        }
+
+        private void taskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Выполнить программную реализацию алгоритма синтаксического анализа целочисленных констант с инициализацией на языке PASCAL.", "Постановка задачи", MessageBoxButtons.OK);
+        }
+
+        private void grammarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("1) <Start> → “const” <BeginID>\r\n\r\n2) <BeginID> → letter<ID> | “_”<ID>\r\n\r\n3) <ID> → letter<ID> | “_”<ID> | digit<ID> | “:” <Keyword>\r\n\r\n4) <Keyword> → “integer”<Equal>\r\n\r\n5) <Equal> → “=”<Integer>\r\n\r\n6) <Integer> → “+”<UnsignedInteger>| “-”<UnsignedInteger> | digit<End> | digit<UnsignedInteger>\r\n\r\n7) <UnsignedInteger> → digit<UnsignedInteger> | digit<End>\r\n\r\n8) <End> → “;”.", "Грамматика", MessageBoxButtons.OK);
+        }
+
+        private void gramClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Согласно классификации Хомского, грамматика G[Z] является автоматной. Правила относятся к классу праворекурсивных продукций (A → aB | a | ε).", "Классификация грамматики", MessageBoxButtons.OK);
+        }
+
+        private void methodAnalysisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormMethod form = new FormMethod();
+            form.ShowDialog();
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text = "const n4: integer = 52;";
+        }
+
+        private void literatureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("1. Шорников Ю.В. Теория и практика языковых процессоров : учеб. пособие / Ю.В. Шорников. – Новосибирск: Изд-во НГТУ, 2004.]\n\n2. Gries D.Designing Compilers for Digital Computers. New York, Jhon Wiley, 1971. 493 p.\n\n3. Теория формальных языков и компиляторов[Электронный ресурс] / Электрон.дан.URL: https://dispace.edu.nstu.ru/didesk/course/show/8594, свободный. Яз.рус. (дата обращения 01.04.2021).", "Список литературы", MessageBoxButtons.OK);
         }
     }
 }
