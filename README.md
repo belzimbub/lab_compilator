@@ -293,3 +293,7 @@ const asr34: integer = 425;
 
 <img width="922" height="744" alt="изображение" src="https://github.com/user-attachments/assets/0b8c65a9-500e-441a-b85e-7770102ad30b" />
 
+# Инструкция по запуску
+- Запустить exe.
+- Создать файл или открыть файл txt.
+- Запустить файл по нажатию «Пуск».
