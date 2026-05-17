@@ -324,6 +324,7 @@ const asr34: integer = 425;
 
 ### Оптимизация IR
 <img width="1204" height="674" alt="изображение" src="https://github.com/user-attachments/assets/d8227c9e-b523-44ba-abbc-c52b7cf2768b" />
+Сравнение файлов:
 <img width="1205" height="583" alt="изображение" src="https://github.com/user-attachments/assets/df5e3512-9226-4624-a6ec-af83199e7bdd" />
 
 ### Построение CFG
