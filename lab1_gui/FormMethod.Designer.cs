@@ -36,17 +36,17 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackgroundImage = Properties.Resources.method_analysis_drawio_5_;
+            pictureBox1.BackgroundImage = Properties.Resources.method_analysis_drawio_6_;
             pictureBox1.BackgroundImageLayout = ImageLayout.None;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(668, 596);
+            pictureBox1.Size = new Size(697, 596);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // label1
             // 
-            label1.Location = new Point(0, 605);
+            label1.Location = new Point(12, 603);
             label1.Name = "label1";
             label1.Size = new Size(668, 127);
             label1.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(666, 739);
+            ClientSize = new Size(692, 739);
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Name = "FormMethod";
